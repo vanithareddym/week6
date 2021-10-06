@@ -23,7 +23,8 @@ pipeline {
           }
           stage("Code coverage") {
                steps {
-                    sh "./gradlew jacocoTestReport"
+                    sh "chmod +x gradlew"
+		    sh "./gradlew jacocoTestReport"
                     sh "./gradlew jacocoTestCoverageVerification"
                }
           }
