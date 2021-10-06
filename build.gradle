@@ -28,7 +28,7 @@ jacocoTestCoverageVerification {
 	violationRules {
 		rule {
 			limit {
-				minimum = 0.2
+				minimum = 0.1
 			}
 		}
 	}
@@ -53,3 +53,5 @@ test {
 	exclude '**/smoke/**'
 }
 jacoco { toolVersion= "0.8.6"}
+
+
