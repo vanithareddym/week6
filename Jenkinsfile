@@ -1,7 +1,5 @@
 pipeline {
-	agent {
-	docker { image 'node:14-alpine' }
-	}
+	agent any
      triggers {
           pollSCM('* * * * *')
      }
@@ -39,6 +37,13 @@ pipeline {
           }
 
           stage("Docker build") {
+		  agent {
+                docker {
+                    image 'gradle:6.7-jdk11'
+                    // Run the container on the node specified at the top-level of the Pipeline, in the same workspace, rather than on a new node entirely:
+                    reuseNode true
+                }
+            }
 		steps {
                     sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
                }
