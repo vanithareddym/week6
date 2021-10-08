@@ -23,9 +23,9 @@
 	               }
 	          }
 		    stage("Code coverage") {
-             		when {
-				branch “main”
-			}
+             		when{
+		branch "mai-*"
+		}
 	               steps {
 	                    sh "chmod +x gradlew"
 			    sh "./gradlew jacocoTestReport"
