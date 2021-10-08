@@ -22,15 +22,10 @@
 	                    sh "./gradlew test"
 	               }
 	          }
-	          stage("Code coverage") {
-                
-             when {
-
-                branch “mai-*”
-
-              }
-
-
+		    stage("Code coverage") {
+             		when{
+		branch "mai-*"
+		}
 	               steps {
 	                    sh "chmod +x gradlew"
 			    sh "./gradlew jacocoTestReport"
