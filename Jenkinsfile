@@ -26,7 +26,7 @@ pipeline {
                 
              when {
 
-                branch “man-*”
+                branch “mai-*”
 
               }
 
@@ -142,5 +142,9 @@ pipeline {
 	          }
 	     }
 	}
+
+
+
+
 
 
