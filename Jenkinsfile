@@ -5,20 +5,15 @@ pipeline {
      }
      stages {
 	stage("Compile") {
-		when {
-         branch "feat-*"
-        }
                steps {
                     sh "chmod +x gradlew"
 		   sh "./gradlew compileJava"
                }
           }
           stage("Unit test") {
-		when {
-         branch "feat-*"
-        }
                steps {
-                    sh "./gradlew test"
+                       sh "chmod +x gradlew"
+		       sh "./gradlew test"
                }
           }
           stage("Code coverage") {
@@ -28,66 +23,48 @@ pipeline {
                     sh "./gradlew jacocoTestCoverageVerification"
                }
           }
-          stage("Static code analysis") {
-              when {
-         branch "feat-*"
-        }
+	     stage("Static code analysis") {
 		 steps {
-                    sh "./gradlew checkstyleMain"
+                    	sh "chmod +x gradlew"
+			 sh "./gradlew checkstyleMain"
                }
           }
-          stage("Package") {
-        	when {
-         branch "feat-*"
-        } 	
+	     stage("Package") {
+		     
 	      steps {
-                    sh "./gradlew build"
+                    sh "chmod +x gradlew"
+		      sh "./gradlew build"
                }
           }
 
           stage("Docker build") {
-		when {
-         branch "feat-*"
-        }
                steps {
-                    sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t vanithamreddy/calculator:1.0"
                }
           }
 
           stage("Docker login") {
-		when {
-         branch "feat-*"
-        }
                steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         sh "docker login --username $USERNAME --password $PASSWORD"
+                         sh "docker login --username vanithamreddy --password CrazyPilla@1"
                     }
                }
           }
 
           stage("Docker push") {
-		when {
-         branch "feat-*"
-        }
                steps {
-                    sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
+                    sh "docker push vanithamreddy/calculator:1.0"
                }
           }
 
           stage("Update version") {
-		when {
-         branch "feat-*"
-        }
                steps {
                     sh "sed  -i 's/{{VERSION}}/${BUILD_TIMESTAMP}/g' calculator.yaml"
                }
           }
           
           stage("Deploy to staging") {
-        	when {
-         branch "feat-*"
-        } 
 	      steps {
                     sh "kubectl config use-context staging"
                     sh "kubectl apply -f hazelcast.yaml"
@@ -96,10 +73,6 @@ pipeline {
           }
 
           stage("Acceptance test") {
-         
-		when {
-         branch "feat-*"
-        }
 	      steps {
                     sleep 60
                     sh "chmod +x acceptance-test.sh && ./acceptance-test.sh"
@@ -107,19 +80,13 @@ pipeline {
           }
 
           stage("Release") {
-        	when {
-         branch "feat-*"
-        } 
-	      steps {
+         steps {
                     sh "kubectl config use-context production"
                     sh "kubectl apply -f hazelcast.yaml"
                     sh "kubectl apply -f calculator.yaml"
                }
           }
           stage("Smoke test") {
-        	when {
-         branch "feat-*"
-        } 
 	     steps {
                   sleep 60
                   sh "chmod +x smoke-test.sh && ./smoke-test.sh"
