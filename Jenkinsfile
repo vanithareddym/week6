@@ -38,7 +38,7 @@ pipeline {
 
           stage("Docker build") {
 		steps {
-                    sh "docker build -t leszko/calculator:${BUILD_TIMESTAMP} ."
+                    sh "docker build -t vanithamreddy/calculator-feature:0.1"
                }
           }
 
@@ -46,14 +46,14 @@ pipeline {
 		steps {
                     withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub-credentials',
                                usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                         sh "docker login --username $USERNAME --password $PASSWORD"
+                         sh "docker login --username vanithamreddy --password CrazyPilla@1"
                     }
                }
           }
 
           stage("Docker push") {
 		steps {
-                    sh "docker push leszko/calculator:${BUILD_TIMESTAMP}"
+                    sh "docker push vanithamreddy/calculator-feature:0.1"
                }
           }
 
