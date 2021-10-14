@@ -110,7 +110,7 @@ pipeline {
                     sh "chmod +x gradlew"
 
 		          sh "./gradlew build"
-                    sh “mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt “
+                    sh "mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt "
 
                    }
 
