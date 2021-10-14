@@ -38,15 +38,19 @@ podTemplate(yaml: '''
 {
   node(POD_LABEL) 
 	{
-		agent any
-
-     triggers {
-
-          pollSCM('* * * * *')
-
-     }
-
      stages {
+	     
+	     	stage('Compile') {
+                  container('gradle') 
+			{
+                    sh '''
+		    chmod +x gradlew
+
+		   ./gradlew compileJava
+		   '''
+			}
+			
+          }
     		stage('Build a gradle project') 
 		{
       		git url: 'https://github.com/vanithareddym/week6.git', branch: 'main'
@@ -62,13 +66,8 @@ podTemplate(yaml: '''
 				} 
 			}
 		}
-		stage('Compile') {
-
-                    sh "chmod +x gradlew"
-
-		   sh "./gradlew compileJava"
-
-          }
+		
+          
 
 		stage('Build Java Image') 
 		{
