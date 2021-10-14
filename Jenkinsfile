@@ -100,9 +100,8 @@ pipeline {
 	     stage("Build a gradle project") 
           {
 
-		   container('gradle')
-             {
-                stage(“build”)
+		   container("gradle")
+            
                 {
 
 	              steps 
@@ -116,7 +115,7 @@ pipeline {
                    }
 
                 }
-             }
+             
            }
 
 		
