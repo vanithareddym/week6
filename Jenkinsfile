@@ -97,7 +97,7 @@ pipeline {
 
           }
 
-	     stage("Build a gradle project") 
+	     stage("gradle") 
           {	              
 		  steps 
                    {
@@ -168,7 +168,7 @@ pipeline {
 
           stage("Build Java Image") 
 		{
-        		stage("Build a kaniko project") 
+        		steps
 				{
           			sh '''
 					echo 'FROM openjdk:8-jre' > Dockerfile
