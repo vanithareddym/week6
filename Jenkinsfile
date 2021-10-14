@@ -38,7 +38,6 @@ podTemplate(yaml: '''
 {
   node(POD_LABEL) 
 	{
-     stages {
 	     
 	     	stage('Compile') {
                   container('gradle') 
@@ -86,6 +85,6 @@ podTemplate(yaml: '''
 			}
 		}
           }
-     }
+     
 }
 
