@@ -98,29 +98,20 @@ pipeline {
           }
 
 	     stage("Build a gradle project") 
-          {
-
-		   container("gradle")
-            
-                {
-
-	              steps 
+          {	              
+		  steps 
                    {
 
                     sh "chmod +x gradlew"
 
-		          sh "./gradlew build"
+		     sh "./gradlew build"
                     sh "mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt "
 
                    }
 
-                }
+                
              
            }
-
-		
-
-
 
           stage("Docker build") {
 
@@ -131,8 +122,6 @@ pipeline {
                }
 
           }
-
-
 
 
           stage("Docker login") {
@@ -177,11 +166,9 @@ pipeline {
 
           }
 
-          stage('Build Java Image') 
+          stage("Build Java Image") 
 		{
-			container('kaniko')
-			{
-        		stage('Build a kaniko project') 
+        		stage("Build a kaniko project") 
 				{
           			sh '''
 					echo 'FROM openjdk:8-jre' > Dockerfile
@@ -191,7 +178,6 @@ pipeline {
 					/kaniko/executor --context `pwd` --destination vanithamreddy/calculator:1.0 					
 					'''
 				}
-			}
 		}
 
 
