@@ -53,6 +53,14 @@ podTemplate(yaml: '''
 				} 
 			}
 		}
+		stage('Compile') {
+
+                    sh "chmod +x gradlew"
+
+		   sh "./gradlew compileJava"
+
+          }
+
 		stage('Build Java Image') 
 		{
 			container('kaniko')
@@ -71,3 +79,4 @@ podTemplate(yaml: '''
 		}
 	}
 }
+
