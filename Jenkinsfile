@@ -38,6 +38,15 @@ podTemplate(yaml: '''
 {
   node(POD_LABEL) 
 	{
+		agent any
+
+     triggers {
+
+          pollSCM('* * * * *')
+
+     }
+
+     stages {
     		stage('Build a gradle project') 
 		{
       		git url: 'https://github.com/vanithareddym/week6.git', branch: 'main'
@@ -77,6 +86,7 @@ podTemplate(yaml: '''
 				}
 			}
 		}
-	}
+          }
+     }
 }
 
