@@ -1,3 +1,22 @@
+pipeline {
+	agent any
+     triggers {
+          pollSCM('* * * * *')
+     }
+     stages {
+          stage("Compile") {
+		steps {
+           sh "chmod +x gradlew"
+		   sh "./gradlew compileJava"
+               }
+          }
+          stage("Unit test") {
+		steps {
+                    sh "./gradlew test"
+               }
+          }
+     }
+  }
 podTemplate(yaml: '''
     apiVersion: v1
     kind: Pod
@@ -34,36 +53,39 @@ podTemplate(yaml: '''
             items:
             - key: .dockerconfigjson
               path: config.json
-''') 
-
-
-
-
-pipeline {
-
-     agent any
-
-     triggers {
-
-          pollSCM('* * * * *')
-
-     }
-
-     stages {
-
-	stage("Compile") {
-
-               steps {
-
-                    sh "chmod +x gradlew"
-
-		   sh "./gradlew compileJava"
-
-               }
-
-          }
-
-          
-
-}
+''')
+{
+  node(POD_LABEL)
+	{
+    		stage('Build a gradle project')
+		{
+     		container('gradle')
+			{
+        		stage('Build a gradle project')
+				{
+         	 		sh '''
+         	 		chmod +x gradlew
+                    ./gradlew build
+                    mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
+                    '''
+				}
+			}
+		}
+		stage('Build Java Image')
+		{
+			container('kaniko')
+			{
+        		stage('Build a kaniko project')
+				{
+          			sh '''
+					echo 'FROM openjdk:8-jre' > Dockerfile
+					echo 'COPY ./calculator-0.0.1-SNAPSHOT.jar app.jar' >> Dockerfile
+					echo 'ENTRYPOINT ["java", "-jar", "app.jar"]' >> Dockerfile
+					mv /mnt/calculator-0.0.1-SNAPSHOT.jar .
+					/kaniko/executor --context `pwd` --destination vanithamreddy/calculator:1.0
+					'''
+				}
+			}
+		}
+	}
 }
