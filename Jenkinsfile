@@ -179,7 +179,7 @@
     		stage('Build a gradle project')
 		{
 
-     		git url: "https://github.com/vanithareddym/week6" , branch: "playground"
+     		git "https://github.com/vanithareddym/week6"
      		if(branch == "playground")
      		{
      		echo " No container will be created for playground branch"
