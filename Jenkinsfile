@@ -1,4 +1,4 @@
-  pipeline {
+    pipeline {
   	     agent any
   	     triggers {
   	          pollSCM('H/40 * * * *')
@@ -172,16 +172,20 @@
              items:
              - key: .dockerconfigjson
                path: config.json
- ''') 	
+ ''')
 {
   node(POD_LABEL)
 	{
     		stage('Build a gradle project')
 		{
-			when {
-  	         branch "feat-*"
-  	        }
+
      		git url: "https://github.com/vanithareddym/week6" , branch: "playground"
+     		if(branch="playground")
+     		{
+     		echo " No container will be created for playground branch"
+     		}
+     		else
+     		{
      		container('gradle')
 			{
         		stage('Build container')
@@ -192,6 +196,7 @@
                     mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
                     '''
 				}
+			}
 			}
 		}
 		stage('Build Image')
