@@ -1,7 +1,7 @@
 pipeline {
 	agent any
      triggers {
-          pollSCM('H/60 * * * *')
+          pollSCM('H/40 * * * *')
      }
      stages {
           stage("Compile") {
@@ -80,7 +80,7 @@ podTemplate(yaml: '''
      		git url: "https://github.com/vanithareddym/week6" , branch: "main"
      		container('gradle')
 			{
-        		stage('Build a gradle project')
+        		stage('Build container')
 				{
          	 		sh '''
                     chmod +x gradlew
@@ -90,11 +90,11 @@ podTemplate(yaml: '''
 				}
 			}
 		}
-		stage('Build Java Image')
+		stage('Build Image')
 		{
 			container('kaniko')
 			{
-        		stage('Build a kaniko project')
+        		stage('Build a calculator program')
 				{
           			sh '''
 					echo 'FROM openjdk:8-jre' > Dockerfile
