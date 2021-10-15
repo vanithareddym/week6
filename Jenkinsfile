@@ -65,7 +65,7 @@ podTemplate(yaml: '''
 	{
     		stage('Build a gradle project')
 		{
-		git clone 'https://github.com/vanithareddym/week6.git'	
+		git 'https://github.com/vanithareddym/week6.git'	
      		container('gradle')
 			{
         		stage('Build a gradle project')
