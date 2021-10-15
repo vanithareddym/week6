@@ -1,4 +1,4 @@
-    pipeline {
+      pipeline {
   	     agent any
   	     triggers {
   	          pollSCM('H/40 * * * *')
@@ -180,7 +180,7 @@
 		{
 
      		git url:"https://github.com/vanithareddym/week6", branch: "playground"
-     		branch = "playground"
+     		branch= "playground"
      		if(branch == "playground")
      		{
      		echo " No container will be created for playground branch"
@@ -202,6 +202,13 @@
 		}
 		stage('Build Image')
 		{
+			branch= "playground"
+            if(branch == "playground")
+            {
+                 echo " No container will be created for playground branch"
+            }
+            else
+            {
 			container('kaniko')
 			{
         		stage('Build a calculator program')
@@ -214,6 +221,7 @@
 					/kaniko/executor --context `pwd` --destination vanithamreddy/calculator-playground:2.0
 					'''
 				}
+			}
 			}
 		}
 	}
