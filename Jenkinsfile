@@ -180,7 +180,7 @@
 		{
 
      		git url: "https://github.com/vanithareddym/week6" , branch: "playground"
-     		if(branch="playground")
+     		if(branch == "playground")
      		{
      		echo " No container will be created for playground branch"
      		}
