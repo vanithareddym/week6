@@ -64,12 +64,13 @@ podTemplate(yaml: '''
   node(POD_LABEL)
 	{
     		stage('Build a gradle project')
-		{	
+		{
+		git clone 'https://github.com/vanithareddym/week6.git'	
      		container('gradle')
 			{
         		stage('Build a gradle project')
 				{
-				git 'https://github.com/vanithareddym/week6.git'	
+					
          	 		sh '''
          	 		chmod +x gradlew
                     ./gradlew build
