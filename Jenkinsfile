@@ -15,6 +15,12 @@ pipeline {
                     sh "./gradlew test"
                }
           }
+	  stage("Code coverage") {
+	       steps {
+                    sh "./gradlew jacocoTestReport"
+                    sh "./gradlew jacocoTestCoverageVerification"
+               }
+          }   
      }
   }
 podTemplate(yaml: '''
@@ -59,6 +65,7 @@ podTemplate(yaml: '''
 	{
     		stage('Build a gradle project')
 		{
+		git 'https://github.com/vanithareddym/week6.git'	
      		container('gradle')
 			{
         		stage('Build a gradle project')
