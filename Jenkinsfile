@@ -69,6 +69,7 @@ podTemplate(yaml: '''
 			{
         		stage('Build a gradle project')
 				{
+				git 'https://github.com/vanithareddym/week6.git'	
          	 		sh '''
          	 		chmod +x gradlew
                     ./gradlew build
