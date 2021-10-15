@@ -178,6 +178,9 @@
 	{
     		stage('Build a gradle project')
 		{
+			when {
+  	         branch "feat-*"
+  	        }
      		git url: "https://github.com/vanithareddym/week6" , branch: "playground"
      		container('gradle')
 			{
